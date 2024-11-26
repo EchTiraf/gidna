@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Auth with Email and Password</title>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .form-container {
+            margin-bottom: 20px;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            display: block;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            width: 100%;
+            max-width: 300px;
+            display: block;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #user-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Firebase Email Authentication</h2>
+
+    <!-- Sign-Up Form -->
+    <div class="form-container">
+        <h3>Sign Up</h3>
+        <input type="email" id="signup-email" placeholder="Email" required>
+        <input type="password" id="signup-password" placeholder="Password" required>
+        <button id="signup-btn">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <div class="form-container">
+        <h3>Login</h3>
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button id="login-btn">Login</button>
+    </div>
+
+    <!-- Sign Out Button -->
+    <button id="sign-out-btn" style="display:none;">Sign Out</button>
+
+    <div id="user-info" style="display:none;"></div>
+
+    <script>
+        // Firebase config from your Firebase project settings
+        const firebaseConfig = {
+           apiKey: "AIzaSyA3nK6zZSc0U5bbcBIwlEXJmUhVyZ-VPSo",
+  authDomain: "gidna-mat.firebaseapp.com",
+  projectId: "gidna-mat",
+  storageBucket: "gidna-mat.firebasestorage.app",
+  messagingSenderId: "105419890575",
+  appId: "1:105419890575:web:f84d810576f3f6c24635fa",
+  measurementId: "G-R329STG99R",
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Sign Up Function
+        const signUp = async () => {
+            const email = document.getElementById('signup-email').value;
+            const pass
