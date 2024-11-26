@@ -70,13 +70,12 @@
     <script>
         // Firebase config from your Firebase project settings
         const firebaseConfig = {
-           apiKey: "AIzaSyA3nK6zZSc0U5bbcBIwlEXJmUhVyZ-VPSo",
-  authDomain: "gidna-mat.firebaseapp.com",
-  projectId: "gidna-mat",
-  storageBucket: "gidna-mat.firebasestorage.app",
-  messagingSenderId: "105419890575",
-  appId: "1:105419890575:web:f84d810576f3f6c24635fa",
-  measurementId: "G-R329STG99R",
+            apiKey: "your-api-key",
+            authDomain: "your-auth-domain.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-storage-bucket.appspot.com",
+            messagingSenderId: "your-sender-id",
+            appId: "your-app-id",
         };
 
         // Initialize Firebase
@@ -86,4 +85,66 @@
         // Sign Up Function
         const signUp = async () => {
             const email = document.getElementById('signup-email').value;
-            const pass
+            const password = document.getElementById('signup-password').value;
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                console.log('User signed up:', userCredential.user);
+                showUserInfo(userCredential.user);
+            } catch (error) {
+                console.error('Error signing up:', error.message);
+            }
+        };
+
+        // Login Function with Redirect
+        const login = async () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                console.log('User logged in:', userCredential.user);
+                // Redirect to your desired website or page
+                window.location.href = 'https://sites.google.com/view/gidn/%D8%A7%D9%84%D8%B5%D9%81%D8%AD%D8%A9-%D8%A7%D9%84%D8%B1%D8%A6%D9%8A%D8%B3%D9%8A%D8%A9?authuser=0'; // Change to your target page
+            } catch (error) {
+                console.error('Error logging in:', error.message);
+            }
+        };
+
+        // Show User Info After Successful Auth
+        const showUserInfo = (user) => {
+            document.getElementById('user-info').style.display = 'block';
+            document.getElementById('user-info').innerHTML = `
+                <h4>Welcome, ${user.email}</h4>
+                <p>User ID: ${user.uid}</p>
+            `;
+            document.getElementById('sign-out-btn').style.display = 'inline-block';
+        };
+
+        // Sign Out Function
+        const signOut = async () => {
+            try {
+                await auth.signOut();
+                console.log('User signed out');
+                document.getElementById('user-info').style.display = 'none';
+                document.getElementById('sign-out-btn').style.display = 'none';
+            } catch (error) {
+                console.error('Error signing out:', error.message);
+            }
+        };
+
+        // Attach event listeners to buttons
+        document.getElementById('signup-btn').addEventListener('click', signUp);
+        document.getElementById('login-btn').addEventListener('click', login);
+        document.getElementById('sign-out-btn').addEventListener('click', signOut);
+
+        // Handle user state changes
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                showUserInfo(user);
+            } else {
+                document.getElementById('user-info').style.display = 'none';
+                document.getElementById('sign-out-btn').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
